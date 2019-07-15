@@ -337,4 +337,9 @@
         <item type="color">#ff9800</item>
     </array>
 
+    <color name="snackbar_background">#ef9f11</color>
+    <color name="app_text_color_dark">#000000</color>
+    <color name="progress_dialog_background_color">#ffffff</color>
+
+
 </resources>

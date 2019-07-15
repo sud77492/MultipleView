@@ -1,4 +1,4 @@
-package com.example.sudhanshus.multipleview;
+package com.example.sudhanshus.multipleview.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,21 +13,37 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.sudhanshus.multipleview.activity.EnquiryActivity;
+import com.example.sudhanshus.multipleview.R;
+import com.example.sudhanshus.multipleview.utils.UserDetailsPref;
 
 public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab_add;
     private ActionBar actionBar;
     private Toolbar toolbar;
+    UserDetailsPref userDetailsPref;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        initData();
+        loginCheck();
         initToolbar();
         initNavigationMenu();
         initListener();
+    }
+
+    private void initData() {
+        userDetailsPref = UserDetailsPref.getInstance();
+    }
+
+    private void loginCheck() {
+        if(userDetailsPref.getIntPref(MainActivity.this, UserDetailsPref.USER_ID) == 0){
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void initListener() {
