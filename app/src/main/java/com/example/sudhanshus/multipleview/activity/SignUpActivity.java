@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -77,7 +76,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private boolean validateData(){
         Boolean check = false;
-        if(isEmpty(etName)){
+        if(Utils.isEmpty(etName)){
             etName.setError("Enter Name");
             check = true;
         }
@@ -85,12 +84,12 @@ public class SignUpActivity extends AppCompatActivity {
             etEmail.setError("Invalid Email");
             check = true;
         }
-        if(isEmpty(etEmail)){
+        if(Utils.isEmpty(etEmail)){
             etEmail.setError("Enter Email");
             check = true;
         }
 
-        if(isEmpty(etMobile)){
+        if(Utils.isEmpty(etMobile)){
             etMobile.setError("Enter Mobile Number");
             check = true;
         }
@@ -178,8 +177,5 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    boolean isEmpty(EditText text){
-        CharSequence str = text.getText().toString();
-        return TextUtils.isEmpty(str);
-    }
+
 }

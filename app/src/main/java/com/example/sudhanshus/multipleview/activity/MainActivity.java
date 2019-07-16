@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void loginCheck() {
         if(userDetailsPref.getIntPref(MainActivity.this, UserDetailsPref.USER_ID) == 0){
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            //startActivity(intent);
         }
     }
 

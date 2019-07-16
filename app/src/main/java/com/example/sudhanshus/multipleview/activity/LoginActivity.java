@@ -8,6 +8,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -34,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     private TextInputEditText tiEmail;
     private TextInputEditText tiPassword;
+    private Button btSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,20 +44,19 @@ public class LoginActivity extends AppCompatActivity {
         
         initView();
         initData();
-        parent_view = findViewById(android.R.id.content);
-        ((View) findViewById(R.id.sign_up)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
+        initListener();
+
 
     }
+
+
 
     private void initView() {
         tiEmail = findViewById(R.id.tiEmail);
         tiPassword = findViewById(R.id.tiPassword);
+        btSignIn = findViewById(R.id.btSignIn);
+        parent_view = findViewById(android.R.id.content);
+
     }
 
     private void initData() {
@@ -63,8 +64,48 @@ public class LoginActivity extends AppCompatActivity {
         userDetailsPref = UserDetailsPref.getInstance();
     }
 
+    private void initListener() {
+        btSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!validateData()) {
+                    loginCheck();
+                }else{
+                    Utils.showLog(Log.ERROR, "VALIDATE", "FAIL", true);
+                }
+            }
+        });
+        ((View) findViewById(R.id.sign_up)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 
-    private void createAccount () {
+    private boolean validateData(){
+        Boolean check = false;
+
+        if(!Utils.isValidEmail1(tiEmail.getText().toString())){
+            tiEmail.setError("Invalid Email");
+            check = true;
+        }
+        if(Utils.isEmpty(tiEmail)){
+            tiEmail.setError("Enter Email");
+            check = true;
+        }
+
+        if(Utils.isEmpty(tiPassword)){
+            tiPassword.setError("Enter Password");
+            check = true;
+        }
+
+        return check;
+    }
+
+
+    private void loginCheck () {
         if (NetworkConnection.isNetworkAvailable(LoginActivity.this)) {
             Utils.showProgressDialog(progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
             Utils.showLog(Log.INFO, "" + AppConfigTags.URL, AppConfigURL.URL_LOGIN, true);
@@ -80,11 +121,10 @@ public class LoginActivity extends AppCompatActivity {
                                     boolean error = jsonObj.getBoolean(AppConfigTags.ERROR);
                                     String message = jsonObj.getString(AppConfigTags.MESSAGE);
                                     if (!error) {
-                                        Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                         startActivity(intent);
                                     } else {
                                         Utils.showToast(LoginActivity.this, message, true);
-                                        //Utils.showSnackBar(MainActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
                                     }
                                     progressDialog.dismiss();
                                 } catch (Exception e) {
@@ -112,8 +152,6 @@ public class LoginActivity extends AppCompatActivity {
                             //Utils.showSnackBar(MainActivity.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
                         }
                     }) {
-
-
                 @Override
                 protected Map<String, String> getParams () throws AuthFailureError {
                     Map<String, String> params = new Hashtable<String, String>();

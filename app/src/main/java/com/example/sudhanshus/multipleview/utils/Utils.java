@@ -103,6 +103,11 @@ public class Utils {
             return false;
         }
     }
+
+    public static boolean isEmpty(EditText text){
+        CharSequence str = text.getText().toString();
+        return TextUtils.isEmpty(str);
+    }
     
     public static Bitmap base64ToBitmap (String b64) {
         byte[] imageAsBytes = Base64.decode (b64.getBytes (), Base64.DEFAULT);
