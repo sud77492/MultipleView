@@ -116,17 +116,6 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/btSignIn"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginLeft="-4dp"
-                android:layout_marginRight="-4dp"
-                android:background="@drawable/btn_rounded_primary"
-                android:text="SUBMIT"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
 
         </LinearLayout>
 

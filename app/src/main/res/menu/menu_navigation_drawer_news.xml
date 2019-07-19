@@ -13,9 +13,13 @@
             android:icon="@drawable/ic_schedule"
             android:title="Enquiry" />
         <item
-            android:id="@+id/nav_highlight"
+            android:id="@+id/nav_about_us"
             android:icon="@drawable/ic_highlight"
-            android:title="Highlight" />
+            android:title="About Us" />
+        <item
+            android:id="@+id/nav_contact_us"
+            android:icon="@drawable/ic_highlight"
+            android:title="Contact Us" />
     </group>
     <group
         android:id="@+id/grp_2"

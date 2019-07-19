@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        
+        initFirebase();
         initView();
         initData();
         initListener();
@@ -118,9 +118,9 @@ public class LoginActivity extends AppCompatActivity {
                             if (response != null) {
                                 try {
                                     JSONObject jsonObj = new JSONObject(response);
-                                    boolean error = jsonObj.getBoolean(AppConfigTags.ERROR);
+                                    boolean success = jsonObj.getBoolean(AppConfigTags.SUCCESS);
                                     String message = jsonObj.getString(AppConfigTags.MESSAGE);
-                                    if (!error) {
+                                    if (success) {
                                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                         startActivity(intent);
                                     } else {
@@ -180,6 +180,17 @@ public class LoginActivity extends AppCompatActivity {
             Utils.showToast(LoginActivity.this, "API ERROR", true);
         }
     }
-    
+
+    private void initFirebase () {
+        /*FirebaseInstanceId.getInstance ().getInstanceId ().addOnCompleteListener (new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete (@NonNull Task<InstanceIdResult> task) {
+                //ConsumerDetailsPref consumerDetailsPref = ConsumerDetailsPref.getInstance ();
+                //consumerDetailsPref.putStringPref (getApplicationContext (), ConsumerDetailsPref.CONSUMER_FIREBASE_ID, task.getResult ().getToken ());
+                Log.e ("karman", "Firebase Token : " + task.getResult ().getToken ());
+            }
+        });*/
+    }
+
     
 }

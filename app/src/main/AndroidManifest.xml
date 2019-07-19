@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sudhanshus.multipleview">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".app.AppController"
@@ -29,6 +31,17 @@
             android:screenOrientation="portrait"
             />
 
+        <activity android:name=".activity.ContactActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".activity.AboutUsActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.EnquiryActivity"
+            android:screenOrientation="portrait"
+            />
+
         <service
             android:name=".helper.MyFirebaseMessagingService"
             android:permission="com.google.android.c2dm.permission.SEND">
@@ -43,6 +56,7 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
     </application>
 
 </manifest>
