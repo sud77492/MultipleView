@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -81,16 +80,16 @@ public class ContactActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+        //if (item.getItemId() == android.R.id.home) {
             if(!validateData()) {
                 userContactToServer();
             }else{
                 Utils.showLog(Log.ERROR, "VALIDATE", "FAIL", true);
             }
             //finish();
-        } else {
-            Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-        }
+//        } else {
+//            Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+//        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -176,6 +175,7 @@ public class ContactActivity extends AppCompatActivity {
                     params.put(AppConfigTags.EMAIL, acEmail.getText().toString());
                     params.put(AppConfigTags.MESSAGE, acMessage.getText().toString());
                     params.put(AppConfigTags.MOBILE, acPhone.getText().toString());
+                    params.put(AppConfigTags.SUBJECT, "Test");
                     params.put(AppConfigTags.FIREBASE_ID, userDetailsPref.getStringPref(ContactActivity.this, UserDetailsPref.FIREBASE_ID));
                     params.put(AppConfigTags.DEVICE_ID, Settings.Secure.getString(getApplicationContext().getContentResolver(),
                             Settings.Secure.ANDROID_ID));

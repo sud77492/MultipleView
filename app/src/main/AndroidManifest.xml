@@ -41,6 +41,13 @@
         <activity android:name=".activity.EnquiryActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".activity.EnquiryListActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.ContactListActivity"
+            android:screenOrientation="portrait"
+            />
 
         <service
             android:name=".helper.MyFirebaseMessagingService"

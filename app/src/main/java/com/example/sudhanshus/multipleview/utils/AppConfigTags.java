@@ -21,6 +21,7 @@ public class AppConfigTags {
     public static String FIREBASE_ID = "firebase_id";
     public static String DEVICE_ID = "device_id";
     public static String DEVICE_NAME = "device_name";
+    public static String SUBJECT = "subject";
 
     public static String ID = "id";
 
@@ -33,6 +34,8 @@ public class AppConfigTags {
     public static String EMAIL = "email";
     public static String NAME = "name";
     public static String MOBILE = "mobile";
+    public static String CITY = "city";
+    public static String ADDRESS = "address";
 
     public static String USER_ID = "user_id";
     public static String USER_NAME = "user_name";

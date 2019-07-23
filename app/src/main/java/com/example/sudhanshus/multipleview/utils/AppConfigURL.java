@@ -1,7 +1,7 @@
 package com.example.sudhanshus.multipleview.utils;
 
 public class AppConfigURL {
-    public static String BASE_URL = "http://website-development.in/apis/";
+    public static String BASE_URL = "http://website-designer.in/apis/";
     // public static String BASE_URL = "https://restaurant-survey-sudhanshu77492652.c9users.io/api/";
     public static String URL_INIT = BASE_URL + "init_vendor";
     public static String URL_SURVEY_DETAILS = BASE_URL + "v1/survey_details";

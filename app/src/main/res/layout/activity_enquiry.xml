@@ -41,9 +41,10 @@
                 android:textColorHint="@color/grey_40">
 
                 <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/acEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Name"
+                    android:hint="Email"
                     android:textColor="@android:color/white"
                     android:theme="@style/EditText.Yellow" />
 
@@ -61,14 +62,13 @@
                 android:textColorHint="@color/grey_40">
 
                 <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/acName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:gravity="top"
-                    android:hint="Message"
+                    android:hint="Name"
                     android:inputType="textMultiLine"
-                    android:maxLines="12"
-                    android:minLines="7"
                     android:textColor="@android:color/white"
                     android:theme="@style/EditText.Yellow" />
 
@@ -84,6 +84,7 @@
                 android:textColorHint="@color/grey_40">
 
                 <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/acPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Phone number"
@@ -103,14 +104,37 @@
                 android:textColorHint="@color/grey_40">
 
                 <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/acAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email address"
+                    android:hint="Address"
                     android:inputType="textEmailAddress"
                     android:textColor="@android:color/white"
                     android:theme="@style/EditText.Yellow" />
 
             </android.support.design.widget.TextInputLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_middle" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/grey_40">
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/acCity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="City"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@android:color/white"
+                    android:theme="@style/EditText.Yellow" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
 
         </LinearLayout>
 
