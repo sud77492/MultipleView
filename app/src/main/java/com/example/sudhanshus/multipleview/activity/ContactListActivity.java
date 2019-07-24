@@ -11,9 +11,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.sudhanshus.multipleview.R;
-import com.example.sudhanshus.multipleview.adapter.EnquiryAdapter;
-import com.example.sudhanshus.multipleview.model.Enquiry;
+import com.example.sudhanshus.multipleview.adapter.ContactAdapter;
+import com.example.sudhanshus.multipleview.model.Contact;
+import com.example.sudhanshus.multipleview.utils.AppConfigTags;
 import com.example.sudhanshus.multipleview.utils.UserDetailsPref;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +29,11 @@ public class ContactListActivity extends AppCompatActivity {
     private Toolbar toolbar;
     UserDetailsPref userDetailsPref;
     RecyclerView rvEnquiry;
-    EnquiryAdapter enquiryAdapter;
+    ContactAdapter contactAdapter;
+    String response;
     
 
-    private List<Enquiry> items = new ArrayList<>();
+    private List<Contact> items = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +48,37 @@ public class ContactListActivity extends AppCompatActivity {
 
     private void initData() {
         userDetailsPref = UserDetailsPref.getInstance();
+        response = userDetailsPref.getStringPref(ContactListActivity.this, UserDetailsPref.RESPONSE);
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArrayContact = jsonObject.getJSONArray(AppConfigTags.CONTACTDATA);
+            for(int i = 0; i < jsonArrayContact.length(); i++){
+                JSONObject jsonObjectContact = jsonArrayContact.getJSONObject(i);
+                JSONObject jsonObject1 = jsonObjectContact.getJSONObject(AppConfigTags.CONTACT);
+                //jsonObjectContact.getJSONObject(AppConfigTags.CONTACT);
+                items.add(new Contact(jsonObject1.getInt(AppConfigTags.ID),
+                        jsonObject1.getInt(AppConfigTags.CLIENT_ID),
+                        jsonObject1.getInt(AppConfigTags.USER_ID),
+                        jsonObject1.getString(AppConfigTags.NAME),
+                        jsonObject1.getString(AppConfigTags.EMAIL),
+                        jsonObject1.getString(AppConfigTags.PHONE),
+                        jsonObject1.getString(AppConfigTags.SUBJECT),
+                        jsonObject1.getString(AppConfigTags.DETAIL),
+                        jsonObject1.getString(AppConfigTags.ST_DETAIL),
+                        jsonObject1.getString(AppConfigTags.ACTIVE),
+                        jsonObject1.getString(AppConfigTags.CREATED),
+                        jsonObject1.getString(AppConfigTags.MODIFIED)
+                ));
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         rvEnquiry.setLayoutManager(new LinearLayoutManager(this));
         rvEnquiry.setHasFixedSize(true);
-        enquiryAdapter = new EnquiryAdapter(this, items);
-        rvEnquiry.setAdapter(enquiryAdapter);
+        contactAdapter = new ContactAdapter(ContactListActivity.this, items);
+        rvEnquiry.setAdapter(contactAdapter);
 
 
     }
@@ -68,11 +100,12 @@ public class ContactListActivity extends AppCompatActivity {
         });
 
 
-        enquiryAdapter.setOnItemClickListener(new EnquiryAdapter.OnItemClickListener() {
+        contactAdapter.setOnItemClickListener(new ContactAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, Enquiry obj, int position) {
-                //Snackbar.make(parent_view, "Item " + obj.name + " clicked", Snackbar.LENGTH_SHORT).show();
+            public void onItemClick(View view, Contact obj, int position) {
+
             }
+
         });
 
     }

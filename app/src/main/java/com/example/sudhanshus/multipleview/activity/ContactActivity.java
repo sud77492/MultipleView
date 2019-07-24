@@ -133,9 +133,9 @@ public class ContactActivity extends AppCompatActivity {
                             if (response != null) {
                                 try {
                                     JSONObject jsonObj = new JSONObject(response);
-                                    boolean error = jsonObj.getBoolean(AppConfigTags.ERROR);
+                                    boolean success = jsonObj.getBoolean(AppConfigTags.SUCCESS);
                                     String message = jsonObj.getString(AppConfigTags.MESSAGE);
-                                    if (!error) {
+                                    if (success) {
                                         Intent intent = new Intent(ContactActivity.this, MainActivity.class);
                                         startActivity(intent);
                                     } else {
@@ -198,4 +198,5 @@ public class ContactActivity extends AppCompatActivity {
             Utils.showToast(ContactActivity.this, "API ERROR", true);
         }
     }
+
 }

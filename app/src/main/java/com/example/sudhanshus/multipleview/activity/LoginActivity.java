@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText tiPassword;
     private Button btSignIn;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +118,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             if (response != null) {
                                 try {
+                                    userDetailsPref.putStringPref(LoginActivity.this, UserDetailsPref.RESPONSE, response);
                                     JSONObject jsonObj = new JSONObject(response);
                                     boolean success = jsonObj.getBoolean(AppConfigTags.SUCCESS);
                                     String message = jsonObj.getString(AppConfigTags.MESSAGE);
@@ -162,6 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                     params.put(AppConfigTags.DEVICE_ID, Settings.Secure.getString(getApplicationContext().getContentResolver(),
                             Settings.Secure.ANDROID_ID));
                     params.put(AppConfigTags.DEVICE_NAME, Utils.getDeviceInfo(LoginActivity.this));
+                    params.put(AppConfigTags.USER_LOGIN_KEY, "c9f0f895fb98ab9159f51fd0297e236d");
                     Utils.showLog (Log.INFO, AppConfigTags.PARAMETERS_SENT_TO_THE_SERVER, "" + params, true);
                     return params;
                 }

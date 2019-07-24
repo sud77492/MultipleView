@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -84,16 +83,16 @@ public class EnquiryActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+        //if (item.getItemId() == android.R.id.home) {
             if(!validateData()) {
                 userEnquiryToServer();
             }else{
                 Utils.showLog(Log.ERROR, "VALIDATE", "FAIL", true);
             }
             //finish();
-        } else {
-            Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
-        }
+        //} else {
+        //    Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+        //}
         return super.onOptionsItemSelected(item);
     }
 
@@ -142,9 +141,9 @@ public class EnquiryActivity extends AppCompatActivity {
                             if (response != null) {
                                 try {
                                     JSONObject jsonObj = new JSONObject(response);
-                                    boolean error = jsonObj.getBoolean(AppConfigTags.ERROR);
+                                    boolean success = jsonObj.getBoolean(AppConfigTags.SUCCESS);
                                     String message = jsonObj.getString(AppConfigTags.MESSAGE);
-                                    if (!error) {
+                                    if (success) {
                                         Intent intent = new Intent(EnquiryActivity.this, EnquiryListActivity.class);
                                         startActivity(intent);
                                     } else {

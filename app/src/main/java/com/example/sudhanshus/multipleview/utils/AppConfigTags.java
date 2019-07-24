@@ -46,6 +46,7 @@ public class AppConfigTags {
     public static String USER_USERNAME = "user_username";
     public static String USER_TYPE = "user_type";
     public static String USER_LOGIN_KEY = "user_login_key";
+    public static String USER_KEY = "user_key";
     public static String USER_RESTAURANT_NAME = "user_restaurant_name";
     public static String USER_FIREBASE_ID = "firebase_id";
     public static String PROFILE = "profile";
@@ -54,7 +55,17 @@ public class AppConfigTags {
     public static String MESSAGE = "message";
 
     public static String CLINETID = "clientId";
+    public static String CLIENT_ID = "client_id";
     public static String PHONE = "phone";
+
+
+    public static String CONTACTDATA = "ContactData";
+    public static String CONTACT = "Contact";
+    public static String DETAIL = "detail";
+    public static String ST_DETAIL = "st_detail";
+    public static String ACTIVE = "active";
+    public static String CREATED = "created";
+    public static String MODIFIED = "modified";
 
 
 

@@ -17,6 +17,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,9 +33,11 @@ import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.example.sudhanshus.multipleview.R;
+import com.example.sudhanshus.multipleview.adapter.AdapterGridShopProductCard;
 import com.example.sudhanshus.multipleview.adapter.EnquiryAdapter;
-import com.example.sudhanshus.multipleview.model.Enquiry;
 import com.example.sudhanshus.multipleview.model.Image;
+import com.example.sudhanshus.multipleview.model.ShopProduct;
+import com.example.sudhanshus.multipleview.utils.SpacingItemDecoration;
 import com.example.sudhanshus.multipleview.utils.UserDetailsPref;
 
 import java.util.ArrayList;
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab_add;
     private ActionBar actionBar;
     private Toolbar toolbar;
+    private RecyclerView rlProducts;
     UserDetailsPref userDetailsPref;
     EnquiryAdapter enquiryAdapter;
     private ViewPager viewPager;
@@ -50,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
     private AdapterImageSlider adapterImageSlider;
     private Runnable runnable = null;
     private Handler handler = new Handler();
+    AdapterGridShopProductCard mAdapter;
+    List<ShopProduct> items = new ArrayList<>();
+
 
     private static int[] array_image_place = {
             R.drawable.image_12,
@@ -63,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
     };
     private boolean[] clicked_enquiry = new boolean[ENQUIRY_ELEMENT.length];
 
-    private List<Enquiry> items = new ArrayList<>();
     private static String[] array_title_place = {
             "Dui fringilla ornare finibus, orci odio",
             "Mauris sagittis non elit quis fermentum",
@@ -95,7 +102,31 @@ public class MainActivity extends AppCompatActivity {
 
     private void initData() {
         userDetailsPref = UserDetailsPref.getInstance();
+        rlProducts = (RecyclerView) findViewById(R.id.rlProducts);
+        rlProducts.setLayoutManager(new GridLayoutManager(this, 2));
+        rlProducts.addItemDecoration(new SpacingItemDecoration(2, 8, true));
+        rlProducts.setHasFixedSize(true);
+        rlProducts.setNestedScrollingEnabled(false);
 
+
+        //set data and list adapter
+        mAdapter = new AdapterGridShopProductCard(MainActivity.this, items);
+        rlProducts.setAdapter(mAdapter);
+
+        // on item list clicked
+        mAdapter.setOnItemClickListener(new AdapterGridShopProductCard.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, ShopProduct obj, int position) {
+               // Snackbar.make(parent_view, "Item " + obj.title + " clicked", Snackbar.LENGTH_SHORT).show();
+            }
+        });
+
+        mAdapter.setOnMoreButtonClickListener(new AdapterGridShopProductCard.OnMoreButtonClickListener() {
+            @Override
+            public void onItemClick(View view, ShopProduct obj, MenuItem item) {
+                //Snackbar.make(parent_view, obj.title + " (" + item.getTitle() + ") clicked", Snackbar.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
@@ -123,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         fab_add = findViewById(R.id.fab_add);
         layout_dots = (LinearLayout) findViewById(R.id.layout_dots);
         viewPager = (ViewPager) findViewById(R.id.pager);
+        rlProducts = findViewById(R.id.rlProducts);
     }
 
     private void initToolbar() {

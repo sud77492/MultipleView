@@ -11,6 +11,7 @@ public class UserDetailsPref {
     public static String USER_MOBILE = "user_mobile";
     public static String USER_LOGIN_KEY = "user_login_key";
     public static String FIREBASE_ID = "firebase_id";
+    public static String RESPONSE = "response";
     private static UserDetailsPref userDetailsPref;
     private String USER_DETAILS = "USER_DETAILS";
 
