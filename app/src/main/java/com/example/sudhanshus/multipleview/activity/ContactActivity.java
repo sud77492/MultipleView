@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
@@ -22,9 +21,7 @@ import com.example.sudhanshus.multipleview.utils.Constants;
 import com.example.sudhanshus.multipleview.utils.NetworkConnection;
 import com.example.sudhanshus.multipleview.utils.UserDetailsPref;
 import com.example.sudhanshus.multipleview.utils.Utils;
-
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
@@ -136,7 +133,7 @@ public class ContactActivity extends AppCompatActivity {
                                     boolean success = jsonObj.getBoolean(AppConfigTags.SUCCESS);
                                     String message = jsonObj.getString(AppConfigTags.MESSAGE);
                                     if (success) {
-                                        Intent intent = new Intent(ContactActivity.this, MainActivity.class);
+                                        Intent intent = new Intent(ContactActivity.this, ContactListActivity.class);
                                         startActivity(intent);
                                     } else {
                                         Utils.showToast(ContactActivity.this, message, true);
@@ -180,6 +177,7 @@ public class ContactActivity extends AppCompatActivity {
                     params.put(AppConfigTags.DEVICE_ID, Settings.Secure.getString(getApplicationContext().getContentResolver(),
                             Settings.Secure.ANDROID_ID));
                     params.put(AppConfigTags.DEVICE_NAME, Utils.getDeviceInfo(ContactActivity.this));
+                    params.put(AppConfigTags.USER_KEY, "c9f0f895fb98ab9159f51fd0297e236d");
                     Utils.showLog (Log.INFO, AppConfigTags.PARAMETERS_SENT_TO_THE_SERVER, "" + params, true);
                     return params;
                 }
@@ -194,9 +192,7 @@ public class ContactActivity extends AppCompatActivity {
             };
             Utils.sendRequest(strRequest1, 60);
         } else {
-
             Utils.showToast(ContactActivity.this, "API ERROR", true);
         }
     }
-
 }

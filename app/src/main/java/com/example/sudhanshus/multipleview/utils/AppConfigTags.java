@@ -67,7 +67,9 @@ public class AppConfigTags {
     public static String CREATED = "created";
     public static String MODIFIED = "modified";
 
-
-
-
+    public static String PRODUCT_ID = "product_id";
+    public static String PRODUCT_TITLE = "product_title";
+    public static String ORDER_NO = "order_no";
+    public static String EXT_DATA = "ext_data";
+    public static String CHK_MAIL = "chk_mail";
 }

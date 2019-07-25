@@ -35,12 +35,14 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
+        public TextView tvDescription;
         public View lyt_parent;
 
         public OriginalViewHolder(View v) {
             super(v);
             name = (TextView) v.findViewById(R.id.name);
             lyt_parent = (View) v.findViewById(R.id.lyt_parent);
+            tvDescription = v.findViewById(R.id.tvDescription);
         }
     }
 
@@ -60,6 +62,7 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             Contact p = items.get(position);
             view.name.setText(p.getName());
+            view.tvDescription.setText(p.getDetail());
             //Tools.displayImageRound(ctx, view.image, p.image);
             view.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -74,7 +77,7 @@ public class ContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return 10;
+        return items.size();
     }
 
 }

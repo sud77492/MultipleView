@@ -1,6 +1,7 @@
 package com.example.sudhanshus.multipleview.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,17 +32,31 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.example.sudhanshus.multipleview.R;
 import com.example.sudhanshus.multipleview.adapter.AdapterGridShopProductCard;
 import com.example.sudhanshus.multipleview.adapter.EnquiryAdapter;
 import com.example.sudhanshus.multipleview.model.Image;
 import com.example.sudhanshus.multipleview.model.ShopProduct;
+import com.example.sudhanshus.multipleview.utils.AppConfigTags;
+import com.example.sudhanshus.multipleview.utils.AppConfigURL;
+import com.example.sudhanshus.multipleview.utils.Constants;
+import com.example.sudhanshus.multipleview.utils.NetworkConnection;
 import com.example.sudhanshus.multipleview.utils.SpacingItemDecoration;
 import com.example.sudhanshus.multipleview.utils.UserDetailsPref;
+import com.example.sudhanshus.multipleview.utils.Utils;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab_add;
@@ -57,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     AdapterGridShopProductCard mAdapter;
     List<ShopProduct> items = new ArrayList<>();
+    ProgressDialog progressDialog;
 
 
     private static int[] array_image_place = {
@@ -98,10 +114,12 @@ public class MainActivity extends AppCompatActivity {
         initComponent();
         initNavigationMenu();
         initListener();
+        init ();
     }
 
     private void initData() {
         userDetailsPref = UserDetailsPref.getInstance();
+        progressDialog = new ProgressDialog(this);
         rlProducts = (RecyclerView) findViewById(R.id.rlProducts);
         rlProducts.setLayoutManager(new GridLayoutManager(this, 2));
         rlProducts.addItemDecoration(new SpacingItemDecoration(2, 8, true));
@@ -133,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void loginCheck() {
         if(userDetailsPref.getIntPref(MainActivity.this, UserDetailsPref.USER_ID) != 0){
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Intent intent = new Intent(MainActivity.this, MainActivity.class);
             startActivity(intent);
         }
     }
@@ -163,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle("Drawer News");
+        actionBar.setTitle("HOME");
         //Tools.setSystemBarColor(this);
     }
 
@@ -241,6 +259,78 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         handler.postDelayed(runnable, 3000);
+    }
+
+    private void init () {
+        if (NetworkConnection.isNetworkAvailable(MainActivity.this)) {
+            Utils.showProgressDialog(progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
+            Utils.showLog(Log.INFO, "" + AppConfigTags.URL, AppConfigURL.URL_LOGIN, true);
+            StringRequest strRequest1 = new StringRequest(Request.Method.POST, AppConfigURL.URL_LOGIN,
+                    new com.android.volley.Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Utils.showLog(Log.INFO, AppConfigTags.SERVER_RESPONSE, response, true);
+
+                            if (response != null) {
+                                try {
+                                    JSONObject jsonObj = new JSONObject(response);
+                                    boolean success = jsonObj.getBoolean(AppConfigTags.SUCCESS);
+                                    String message = jsonObj.getString(AppConfigTags.MESSAGE);
+                                    if (success) {
+                                        userDetailsPref.putStringPref(MainActivity.this, UserDetailsPref.RESPONSE, response);
+
+                                    } else {
+                                        Utils.showToast(MainActivity.this, message, true);
+                                    }
+                                    progressDialog.dismiss();
+                                } catch (Exception e) {
+                                    progressDialog.dismiss();
+                                    Utils.showToast(MainActivity.this, "API ERROR", true);
+                                    //Utils.showSnackBar(MainActivity.this, clMain, getResources().getString(R.string.snackbar_text_exception_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                //Utils.showSnackBar(MainActivity.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                                Utils.showToast(MainActivity.this, "API ERROR", true);
+                                Utils.showLog(Log.WARN, AppConfigTags.SERVER_RESPONSE, AppConfigTags.DIDNT_RECEIVE_ANY_DATA_FROM_SERVER, true);
+                            }
+                            progressDialog.dismiss();
+                            //swipeRefreshLayout.setRefreshing (false);
+                        }
+                    },
+                    new com.android.volley.Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // swipeRefreshLayout.setRefreshing (false);
+                            progressDialog.dismiss();
+                            Utils.showLog(Log.ERROR, AppConfigTags.VOLLEY_ERROR, error.toString(), true);
+                            Utils.showToast(MainActivity.this, "API ERROR", true);
+                            //Utils.showSnackBar(MainActivity.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams () throws AuthFailureError {
+                    Map<String, String> params = new Hashtable<String, String>();
+                    params.put(AppConfigTags.CLINETID, "1");
+                    params.put(AppConfigTags.FIREBASE_ID, userDetailsPref.getStringPref(MainActivity.this, UserDetailsPref.FIREBASE_ID));
+                    params.put(AppConfigTags.USER_KEY, "c9f0f895fb98ab9159f51fd0297e236d");
+                    Utils.showLog (Log.INFO, AppConfigTags.PARAMETERS_SENT_TO_THE_SERVER, "" + params, true);
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put(AppConfigTags.HEADER_API_KEY, Constants.api_key);
+                    Utils.showLog(Log.INFO, AppConfigTags.HEADERS_SENT_TO_THE_SERVER, "" + params, false);
+                    return params;
+                }
+            };
+            Utils.sendRequest(strRequest1, 60);
+        } else {
+
+            Utils.showToast(MainActivity.this, "API ERROR", true);
+        }
     }
 
 
@@ -364,7 +454,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void logOut(){
         userDetailsPref.putIntPref(MainActivity.this, UserDetailsPref.USER_ID, 0);
-        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        startActivity(new Intent(MainActivity.this, MainActivity.class));
     }
 
     private String single_choice_selected;
@@ -398,5 +488,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setNegativeButton(R.string.CANCEL, null);
         builder.show();
     }
+
+
 
 }

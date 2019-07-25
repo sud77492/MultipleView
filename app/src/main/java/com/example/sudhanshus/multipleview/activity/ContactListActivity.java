@@ -53,21 +53,20 @@ public class ContactListActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArrayContact = jsonObject.getJSONArray(AppConfigTags.CONTACTDATA);
             for(int i = 0; i < jsonArrayContact.length(); i++){
-                JSONObject jsonObjectContact = jsonArrayContact.getJSONObject(i);
-                JSONObject jsonObject1 = jsonObjectContact.getJSONObject(AppConfigTags.CONTACT);
+                JSONObject jsonObjectContact = jsonArrayContact.getJSONObject(i).getJSONObject(AppConfigTags.CONTACT);
                 //jsonObjectContact.getJSONObject(AppConfigTags.CONTACT);
-                items.add(new Contact(jsonObject1.getInt(AppConfigTags.ID),
-                        jsonObject1.getInt(AppConfigTags.CLIENT_ID),
-                        jsonObject1.getInt(AppConfigTags.USER_ID),
-                        jsonObject1.getString(AppConfigTags.NAME),
-                        jsonObject1.getString(AppConfigTags.EMAIL),
-                        jsonObject1.getString(AppConfigTags.PHONE),
-                        jsonObject1.getString(AppConfigTags.SUBJECT),
-                        jsonObject1.getString(AppConfigTags.DETAIL),
-                        jsonObject1.getString(AppConfigTags.ST_DETAIL),
-                        jsonObject1.getString(AppConfigTags.ACTIVE),
-                        jsonObject1.getString(AppConfigTags.CREATED),
-                        jsonObject1.getString(AppConfigTags.MODIFIED)
+                items.add(new Contact(jsonObjectContact.getInt(AppConfigTags.ID),
+                        jsonObjectContact.getInt(AppConfigTags.CLIENT_ID),
+                        jsonObjectContact.getInt(AppConfigTags.USER_ID),
+                        jsonObjectContact.getString(AppConfigTags.NAME),
+                        jsonObjectContact.getString(AppConfigTags.EMAIL),
+                        jsonObjectContact.getString(AppConfigTags.PHONE),
+                        jsonObjectContact.getString(AppConfigTags.SUBJECT),
+                        jsonObjectContact.getString(AppConfigTags.DETAIL),
+                        jsonObjectContact.getString(AppConfigTags.ST_DETAIL),
+                        jsonObjectContact.getString(AppConfigTags.ACTIVE),
+                        jsonObjectContact.getString(AppConfigTags.CREATED),
+                        jsonObjectContact.getString(AppConfigTags.MODIFIED)
                 ));
             }
 
